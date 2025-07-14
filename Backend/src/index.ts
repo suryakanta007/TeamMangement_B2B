@@ -4,6 +4,8 @@ import cors from "cors";
 import session from "cookie-session"
 import { config } from "./config/app.config";
 import connectDatabase from "./config/database.config";
+import {HTTPSTATUS} from "./config/http.config";
+import {errorHandeler} from "./middlewares/error.middleware";
 const app = express();
 const BASE_PATH = config.BASE_PATH;
 
@@ -29,8 +31,10 @@ app.use(
     })
 )
 
+app.use(errorHandeler);
+
 app.get("/",(req : Request,res: Response,next:NextFunction)=>{
-    res.status(200).json({
+    res.status(HTTPSTATUS.OK).json({
         message:"Hello to Team Mangaement System"
     })
 })
