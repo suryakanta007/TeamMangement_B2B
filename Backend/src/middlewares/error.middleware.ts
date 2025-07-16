@@ -1,5 +1,6 @@
-import { ErrorRequestHandler } from "express";
+import e, { ErrorRequestHandler } from "express";
 import { HTTPSTATUS } from "../config/http.config";
+import { AppError } from "../utils/appError";
 
 export const errorHandeler:ErrorRequestHandler = (error,req,res,next):any=>{
 
@@ -9,6 +10,12 @@ export const errorHandeler:ErrorRequestHandler = (error,req,res,next):any=>{
 
         return res.status(HTTPSTATUS.BAD_REQUEST).json({
             message:"Invalid JSON fromat,Please check your request .", 
+        })
+    }
+    if(error instanceof AppError){
+        return res.status(error.statusCode).json({
+            message:error.message,
+            errorCode:error.errorCode
         })
     }
 
