@@ -1,7 +1,7 @@
 
 
 import { hash } from "crypto";
-import { Document,Schema, Types } from "mongoose";
+import { Document,model,Schema, Types } from "mongoose";
 import { hashValue } from "../utils/bcrypt";
 
 export interface UserDocument extends Document{
@@ -66,3 +66,6 @@ userSchema.methods.omitPassword = function():Omit<UserDocument,"password">{
     return userObject;
 }
 
+
+const UserModel = model<UserDocument>("User",userSchema);
+export default UserModel;
