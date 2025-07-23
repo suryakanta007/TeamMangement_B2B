@@ -1,10 +1,11 @@
-import passport from "passport";
+import passport, { use } from "passport";
 import { Request } from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { config } from "./app.config";
 import { NotFoundException } from "../utils/appError";
 import { ProviderEnum } from "../enums/account-provider";
 import { loginOrCreateAccountService } from "../services/auth.service";
+import { userInfo } from "os";
 
 passport.use(
     new GoogleStrategy(
@@ -38,3 +39,9 @@ passport.use(
         }
     )
 )
+
+passport.serializeUser((user:any,done)=>done(null,user));
+
+
+passport.deserializeUser((user:any,done)=>done(null,user));
+

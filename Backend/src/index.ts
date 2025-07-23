@@ -6,6 +6,10 @@ import { config } from "./config/app.config";
 import connectDatabase from "./config/database.config";
 import {HTTPSTATUS} from "./config/http.config";
 import {errorHandeler} from "./middlewares/error.middleware";
+import "./config/passport.config";
+import passport from "passport";
+import authRoutes from "./routes/auth.route";
+
 const app = express();
 const BASE_PATH = config.BASE_PATH;
 
@@ -23,6 +27,9 @@ app.use(
     })
 )
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use(
     cors({
@@ -32,6 +39,8 @@ app.use(
 )
 
 app.use(errorHandeler);
+
+app.use(`${BASE_PATH}/auth`,authRoutes)
 
 app.get("/",(req : Request,res: Response,next:NextFunction)=>{
     res.status(HTTPSTATUS.OK).json({
