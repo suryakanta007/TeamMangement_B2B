@@ -3,7 +3,8 @@ export  const ProviderEnum = {
     FACEBOOK:"FACEBOOK",
     TWITTER:"TWITTER",
     LINKEDIN:"LINKEDIN",
-    GITHUB:"GITHUB"
+    GITHUB:"GITHUB",
+    EMAIL:"EMAIL"
 }
 
 export type ProviderEnumType = keyof typeof ProviderEnum;
