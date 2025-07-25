@@ -15,7 +15,6 @@ const BASE_PATH = config.BASE_PATH;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-
 app.use(
     session({
         name : "session",
@@ -23,12 +22,28 @@ app.use(
         maxAge:1000*60*60*24,
         secure:config.NODE_ENV === "production",
         httpOnly:true,
-        sameSite:"lax"   
+        sameSite:"lax"
     })
 )
 
+// Add compatibility methods for Passport with cookie-session
+app.use((req, res, next) => {
+    if (req.session && !req.session.regenerate) {
+        req.session.regenerate = (callback: () => void) => {
+            callback();
+        };
+    }
+    if (req.session && !req.session.save) {
+        req.session.save = (callback: () => void) => {
+            callback();
+        };
+    }
+    next();
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 app.use(
