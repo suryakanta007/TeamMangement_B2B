@@ -53,15 +53,16 @@ app.use(
     })
 )
 
-app.use(errorHandeler);
+
 
 app.use(`${BASE_PATH}/auth`,authRoutes)
-
 app.get("/",(req : Request,res: Response,next:NextFunction)=>{
     res.status(HTTPSTATUS.OK).json({
         message:"Hello to Team Mangaement System"
     })
 })
+app.use(errorHandeler);
+
 
 app.listen(config.PORT,async ()=>{
     console.log(`Server is running at http://localhost:${config.PORT}`)

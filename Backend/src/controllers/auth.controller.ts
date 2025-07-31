@@ -25,15 +25,28 @@ export const googleLoginCallback = asyncHandler(
 )
 
 export const registerUserController = asyncHandler(
-    async (req: Request, res: Response) => {
-      const body = registerSchema.parse({
-        ...req.body,
-      });
-  
-      await registerUserService(body);
-  
-      return res.status(HTTPSTATUS.CREATED).json({
-        message: "User created successfully",
-      });
+    async (req: Request, res: Response , next:any) => {
+      try {
+        console.log("Registering user...");
+        
+        const result = registerSchema.safeParse({
+          ...req.body,
+        });
+
+        if(!result.success){
+          return next(result.error)
+        }
+
+        const body = result.data
+        
+    
+        await registerUserService(body);
+    
+        return res.status(HTTPSTATUS.CREATED).json({
+          message: "User created successfully",
+        });
+      } catch (error) {
+        return next(error)
+      }
     }
   );

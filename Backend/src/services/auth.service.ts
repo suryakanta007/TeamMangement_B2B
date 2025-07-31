@@ -86,6 +86,7 @@ export const registerUserService = async (body: {
   
     try {
       session.startTransaction();
+      console.log("register session started");
   
       const existingUser = await UserModel.findOne({ email }).session(session);
       if (existingUser) {
