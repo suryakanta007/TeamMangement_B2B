@@ -27,8 +27,6 @@ export const googleLoginCallback = asyncHandler(
 export const registerUserController = asyncHandler(
     async (req: Request, res: Response , next:any) => {
       try {
-        console.log("Registering user...");
-        
         const result = registerSchema.safeParse({
           ...req.body,
         });
