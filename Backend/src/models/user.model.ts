@@ -2,7 +2,7 @@
 
 import { hash } from "crypto";
 import { Document,model,Schema, Types } from "mongoose";
-import { hashValue } from "../utils/bcrypt";
+import { compareValue, hashValue } from "../utils/bcrypt";
 
 export interface UserDocument extends Document{
     name:string;
@@ -65,6 +65,10 @@ userSchema.methods.omitPassword = function():Omit<UserDocument,"password">{
     delete userObject.password;
     return userObject;
 }
+
+userSchema.methods.comparePassword = async function (value: string) {
+    return compareValue(value, this.password);
+  };
 
 
 const UserModel = model<UserDocument>("User",userSchema);
